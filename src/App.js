@@ -20,6 +20,17 @@ export const shouldLive = (cellState, neighbors) => {
 
     return count === 2 || count === 3;
   }
+
+  if (!cellState) {
+    const count = neighbors.reduce((acc, curr) => {
+      if (curr) {
+        acc += 1
+      }
+      return acc;
+    }, 0);
+
+    return count === 3;
+  }
 };
 
 export const perfectCond = (grid, rowIdx, colIdx) => {

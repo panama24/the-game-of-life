@@ -74,9 +74,31 @@ describe('trueOrFalse', () => {
 });
 
 describe('shouldLive', () => {
-  it('should return true when there are 2-3 living neighbors', () => {
-    const neighbors = [false, true, false, false, false, true, false, false];
-    const res = shouldLive(true, neighbors);
-    expect(res).toBe(true);
+  describe('when cell is alive', () => {
+    it('should return true when there are 2-3 living neighbors', () => {
+      const neighbors = [false, true, false, false, false, true, false, false];
+      const res = shouldLive(true, neighbors);
+      expect(res).toBe(true);
+    });
+
+    it('should return false when there are fewer than 2 living neighbors', () => {
+      const neighbors = [false, false, false, false, false, true, false, false];
+      const res = shouldLive(true, neighbors);
+      expect(res).toBe(false);
+    });
+
+    it('should return false when there are more than 3 living neighbors', () => {
+      const neighbors = [false, true, true, true, true, true, false, false];
+      const res = shouldLive(true, neighbors);
+      expect(res).toBe(false);
+    });
+  });
+
+  describe('when cell is dead', () => {
+    it('should return true when there exactly 3 living neighbors', () => {
+      const neighbors = [false, true, true, true, false, false, false, false];
+      const res = shouldLive(false, neighbors);
+      expect(res).toBe(true);
+    });
   });
 });
