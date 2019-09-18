@@ -9,6 +9,19 @@ export const generateGrid = () => Array(10)
   .fill(generateRandArray())
   .map(arr => generateRandArray());
 
+export const shouldLive = (cellState, neighbors) => {
+  if (cellState) {
+    const count = neighbors.reduce((acc, curr) => {
+      if (curr) {
+        acc += 1
+      }
+      return acc;
+    }, 0);
+
+    return count === 2 || count === 3;
+  }
+};
+
 export const perfectCond = (grid, rowIdx, colIdx) => {
   const row = grid[rowIdx];
   const prevRow = grid[rowIdx-1];

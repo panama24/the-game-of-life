@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import App, { generateGrid, Cell, trueOrFalse } from './App';
+import App, { generateGrid, Cell, shouldLive, trueOrFalse } from './App';
 
 afterEach(cleanup);
 
@@ -70,5 +70,13 @@ describe('trueOrFalse', () => {
       .map(el => trueOrFalse());
     const expectation = res.every(el => el);
     expect(expectation).toBe(false);
+  });
+});
+
+describe('shouldLive', () => {
+  it('should return true when there are 2-3 living neighbors', () => {
+    const neighbors = [false, true, false, false, false, true, false, false];
+    const res = shouldLive(true, neighbors);
+    expect(res).toBe(true);
   });
 });
