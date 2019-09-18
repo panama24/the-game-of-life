@@ -18,14 +18,9 @@ export const getCount = (array) => array.reduce((acc, curr) => {
 
 export const shouldLive = (cellState, neighbors) => {
   const count = getCount(neighbors);
-
-  if (cellState) {
-    return count === 2 || count === 3;
-  }
-
-  if (!cellState) {
-    return count === 3;
-  }
+  return cellState
+    ? (count === 2 || count === 3)
+    : count === 3;
 };
 
 export const perfectCond = (grid, rowIdx, colIdx) => {

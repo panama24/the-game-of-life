@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import App, { generateGrid, Cell, shouldLive, trueOrFalse } from './App';
+import App, { Cell, generateGrid, getCount, shouldLive, trueOrFalse } from './App';
 
 afterEach(cleanup);
 
@@ -70,6 +70,14 @@ describe('trueOrFalse', () => {
       .map(el => trueOrFalse());
     const expectation = res.every(el => el);
     expect(expectation).toBe(false);
+  });
+});
+
+describe('getCount', () => {
+  it('should count instances of true', () => {
+    const array = [false, true, false, false, false, true, false, false];
+    const expectation = getCount(array);
+    expect(expectation).toBe(2);
   });
 });
 
