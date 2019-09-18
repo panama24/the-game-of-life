@@ -9,26 +9,21 @@ export const generateGrid = () => Array(10)
   .fill(generateRandArray())
   .map(arr => generateRandArray());
 
-export const shouldLive = (cellState, neighbors) => {
-  if (cellState) {
-    const count = neighbors.reduce((acc, curr) => {
-      if (curr) {
-        acc += 1
-      }
-      return acc;
-    }, 0);
+export const getCount = (array) => array.reduce((acc, curr) => {
+  if (curr) {
+    acc += 1
+  }
+  return acc;
+}, 0);
 
+export const shouldLive = (cellState, neighbors) => {
+  const count = getCount(neighbors);
+
+  if (cellState) {
     return count === 2 || count === 3;
   }
 
   if (!cellState) {
-    const count = neighbors.reduce((acc, curr) => {
-      if (curr) {
-        acc += 1
-      }
-      return acc;
-    }, 0);
-
     return count === 3;
   }
 };
@@ -82,18 +77,6 @@ export class Cell {
     return true;
   }
 }
-// export const Grid = () => {
-  // const arrays = generateGrid();
-  // return (
-    // <>
-      // {arrays.map((a, i) => {
-        // return (
-          // <Cell key={i} content={a} />
-        // )
-      // })}
-    // </>
-  // );
-// };
 
 function App() {
   return (
