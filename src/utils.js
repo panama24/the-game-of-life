@@ -1,9 +1,4 @@
 const trueOrFalse = () => !!Math.floor(Math.random() * 2);
-const generateRandArray = () => Array(10).fill(null).map(c => trueOrFalse());
-
-const generateGrid = () => Array(10)
-  .fill(generateRandArray())
-  .map(arr => generateRandArray());
 
 const getCount = (array) => array.reduce((acc, { isAlive }) => {
   if (isAlive) {
