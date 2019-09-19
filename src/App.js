@@ -32,18 +32,45 @@ export const makeGrid = (cols, rows) => {
 
   return cells;
 }
+
+/* [
+ * {x:0, y:4}, {x:1, y:4}, {x:2, y:4}, {x:3, y:4}, {x:4, y:4},
+ * {x:0, y:3}, {x:1, y:3}, {x:2, y:3}, {x:3, y:3}, {x:4, y:3},
+ * {x:0, y:2}, {x:1, y:2}, {x:2, y:2}, {x:3, y:2}, {x:4, y:2},
+ * {x:0, y:1}, {x:1, y:1}, {x:2, y:1}, {x:3, y:1}, {x:4, y:1},
+ * {x:0, y:0}, {x:1, y:0}, {x:2, y:0}, {x:3, y:0}, {x:4, y:0},
+ * ] */
+const getCoords = (x, y) => [
+  { x, y: y+1 },
+  { x, y: y-1 },
+  { x: x+1, y: y+1 },
+  { x: x+1, y },
+  { x: x+1, y: y-1 },
+  { x: x-1, y: y+1 },
+  { x: x-1, y },
+  { x: x-1, y: y-1 },
+];
+
+export const getNeighbors = (grid, cell) => {
+  const coords = getCoords(cell.x, cell.y);
+
+  let neighbors = [];
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < coords.length; j++) {
+      if (grid[i]['x'] === coords[j]['x'] && grid[i]['y'] === coords[j]['y']) {
+        neighbors.push(grid[i])
+      }
+    }
+  }
+  return neighbors;
+}
+
 export const shouldLive = (cell, neighbors) => {
   const count = getCount(neighbors);
   return cell.isAlive
     ? (count === 2 || count === 3)
     : count === 3;
 };
-
-export class Cell {
-  isAlive() {
-    return true;
-  }
-}
 
 function App() {
   return (

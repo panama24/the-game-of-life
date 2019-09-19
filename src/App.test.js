@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import App, { cell, getCount, makeGrid, shouldLive, trueOrFalse } from './App';
+import App, { cell, getCount, getNeighbors, makeGrid, shouldLive, trueOrFalse } from './App';
 
 afterEach(cleanup);
 
@@ -132,6 +132,33 @@ describe('shouldLive', () => {
 });
 
 describe('getNeighbors', () => {
-  describe('when the cell is in the top left corner', () => {
+  describe('when cell is a middle cell', () => {
+    it('should return 8 neighboring cells', () => {
+      const cell = {x:2, y:2, isAlive: true};
+      const grid = makeGrid(5, 5);
+      const res = getNeighbors(grid, cell);
+
+      expect(res.length).toEqual(8);
+    });
+  });
+
+  describe('when cell is a corner cell', () => {
+    it('should return 3 neighboring cells', () => {
+      const cell = {x:0, y:0, isAlive: true};
+      const grid = makeGrid(5, 5);
+      const res = getNeighbors(grid, cell);
+
+      expect(res.length).toEqual(3);
+    });
+  });
+
+  describe('when cell is on the perimeter, but not a corner', () => {
+    it('should return 5 neighboring cells', () => {
+      const cell = {x:1, y:0, isAlive: true};
+      const grid = makeGrid(5, 5);
+      const res = getNeighbors(grid, cell);
+
+      expect(res.length).toEqual(5);
+    });
   });
 });
