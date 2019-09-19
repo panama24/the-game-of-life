@@ -9,62 +9,34 @@ export const generateGrid = () => Array(10)
   .fill(generateRandArray())
   .map(arr => generateRandArray());
 
-export const getCount = (array) => array.reduce((acc, curr) => {
-  if (curr) {
+export const getCount = (array) => array.reduce((acc, { isAlive }) => {
+  if (isAlive) {
     acc += 1
   }
   return acc;
 }, 0);
 
-export const shouldLive = (cellState, neighbors) => {
+export const cell = (x, y, isAlive) => ({ x, y, isAlive });
+
+export const makeGrid = (cols, rows) => {
+  let cells = [];
+
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      const cellX = i;
+      const cellY = j;
+      const isAlive = trueOrFalse();
+      cells.push(cell(cellX, cellY, isAlive));
+    }
+  }
+
+  return cells;
+}
+export const shouldLive = (cell, neighbors) => {
   const count = getCount(neighbors);
-  return cellState
+  return cell.isAlive
     ? (count === 2 || count === 3)
     : count === 3;
-};
-
-export const perfectCond = (grid, rowIdx, colIdx) => {
-  const row = grid[rowIdx];
-  const prevRow = grid[rowIdx-1];
-  const nextRow = grid[rowIdx+1];
-
-  const cell = row[colIdx];
-  const prevCell = row[colIdx-1];
-  const nextCell = row[colIdx+1];
-
-  if (row === 0) {
-    if (cell === 0) {
-      // is top left corner
-      const check = [nextCell, nextRow[colIdx], nextRow[colIdx+1]]
-    }
-    if (cell === row.length-1) {
-      // is top right corner
-      const check = [prevCell, nextRow[colIdx], nextRow[colIdx-1]]
-    }
-  }
-
-  if (row === grid.length -1) {
-    if (cell === 0) {
-      // is bottom left corner
-      const check = [nextCell, prevRow[colIdx], prevRow[colIdx+1]]
-    }
-    if (cell === row.length-1) {
-      // is bottom right corner
-      const check = [prevCell, prevRow[colIdx], prevRow[colIdx-1]]
-    }
-  }
-
-  // is a middle cell
-  const check = [
-    prevRow[colIdx-1],
-    prevRow[colIdx],
-    prevRow[colIdx+1],
-    prevCell,
-    nextCell,
-    nextRow[colIdx-1],
-    nextRow[colIdx],
-    nextRow[colIdx+1],
-  ];
 };
 
 export class Cell {

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import App, { Cell, generateGrid, getCount, shouldLive, trueOrFalse } from './App';
+import App, { cell, getCount, makeGrid, shouldLive, trueOrFalse } from './App';
 
 afterEach(cleanup);
 
@@ -26,40 +26,30 @@ describe('App', () => {
   });
 });
 
-describe('generateGrid', () => {
-  it('should be a 10 x 10 grid', () => {
-    const grid = generateGrid();
-    const rows = grid.length;
-    /* [
-     * [0,0,0,0,0,0,0,0,0,0]
-     * [0,0,0,0,0,0,0,0,0,0]
-     * [0,0,0,0,0,0,0,0,0,0]
-     * [0,0,0,0,0,0,0,0,0,0]
-     * [0,0,0,0,0,0,0,0,0,0]
-     * [0,0,0,0,0,0,0,0,0,0]
-     * ] */;
-    const columns = grid.every(r => r.length === 10);
-    expect(rows).toEqual(10);
-    expect(columns).toEqual(true);
+describe('cell', () => {
+  it('should have properties x, y and isAlive', () => {
+    const { x, y, isAlive } = cell(0, 0, true);
+    expect(x).toEqual(0);
+    expect(y).toEqual(0);
+    expect(isAlive).toEqual(true);
   });
 });
 
-describe('Cell', () => {
-  it('should die if has fewer than 2 living neighbors', () => {
+describe('makeGrid', () => {
+  it('should generate grid of specified dimensions', () => {
+    const cols = 5;
+    const rows = 5;
+    const grid = makeGrid(cols, rows);
     /*
-    prev row = i-1, i, i+1
-    same row = i-1, i, i+1
-    next row = i-1, i, i+1
-    */
-  });
-
-  it('should remain alive if has 2-3 living neighbors', () => {
-  });
-
-  it('should die if has more than 3 living neighbors', () => {
-  });
-
-  it('should die if has more than 3 living neighbors', () => {
+     * [
+     * {x:0, y:4}, {x:1, y:4}, {x:2, y:4}, {x:3, y:4}, {x:4, y:4},
+     * {x:0, y:3}, {x:1, y:3}, {x:2, y:3}, {x:3, y:3}, {x:4, y:3},
+     * {x:0, y:2}, {x:1, y:2}, {x:2, y:2}, {x:3, y:2}, {x:4, y:2},
+     * {x:0, y:1}, {x:1, y:1}, {x:2, y:1}, {x:3, y:1}, {x:4, y:1},
+     * {x:0, y:0}, {x:1, y:0}, {x:2, y:0}, {x:3, y:0}, {x:4, y:0},
+     * ]
+     */
+    expect(grid.length).toEqual(cols * rows);
   });
 });
 
@@ -75,28 +65,52 @@ describe('trueOrFalse', () => {
 
 describe('getCount', () => {
   it('should count instances of true', () => {
-    const array = [false, true, false, false, false, true, false, false];
+    const array = [
+      {x:0, y:0, isAlive: true},
+      {x:1, y:0, isAlive: true},
+      {x:2, y:0, isAlive: false},
+      {x:3, y:0, isAlive: false},
+      {x:4, y:0, isAlive: true},
+    ];
     const expectation = getCount(array);
-    expect(expectation).toBe(2);
+    expect(expectation).toBe(3);
   });
 });
 
 describe('shouldLive', () => {
   describe('when cell is alive', () => {
     it('should return true when there are 2-3 living neighbors', () => {
-      const neighbors = [false, true, false, false, false, true, false, false];
+      const neighbors = [
+        {x:0, y:0, isAlive: true},
+        {x:1, y:0, isAlive: true},
+        {x:2, y:0, isAlive: false},
+        {x:3, y:0, isAlive: false},
+        {x:4, y:0, isAlive: true},
+      ];
       const res = shouldLive(true, neighbors);
       expect(res).toBe(true);
     });
 
     it('should return false when there are fewer than 2 living neighbors', () => {
-      const neighbors = [false, false, false, false, false, true, false, false];
+      const neighbors = [
+        {x:0, y:0, isAlive: false},
+        {x:1, y:0, isAlive: false},
+        {x:2, y:0, isAlive: false},
+        {x:3, y:0, isAlive: false},
+        {x:4, y:0, isAlive: true},
+      ];
       const res = shouldLive(true, neighbors);
       expect(res).toBe(false);
     });
 
     it('should return false when there are more than 3 living neighbors', () => {
-      const neighbors = [false, true, true, true, true, true, false, false];
+      const neighbors = [
+        {x:0, y:0, isAlive: true},
+        {x:1, y:0, isAlive: true},
+        {x:2, y:0, isAlive: true},
+        {x:3, y:0, isAlive: false},
+        {x:4, y:0, isAlive: true},
+      ];
       const res = shouldLive(true, neighbors);
       expect(res).toBe(false);
     });
@@ -104,9 +118,20 @@ describe('shouldLive', () => {
 
   describe('when cell is dead', () => {
     it('should return true when there exactly 3 living neighbors', () => {
-      const neighbors = [false, true, true, true, false, false, false, false];
+      const neighbors = [
+        {x:0, y:0, isAlive: false},
+        {x:1, y:0, isAlive: true},
+        {x:2, y:0, isAlive: true},
+        {x:3, y:0, isAlive: false},
+        {x:4, y:0, isAlive: true},
+      ];
       const res = shouldLive(false, neighbors);
       expect(res).toBe(true);
     });
+  });
+});
+
+describe('getNeighbors', () => {
+  describe('when the cell is in the top left corner', () => {
   });
 });
