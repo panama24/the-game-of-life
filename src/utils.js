@@ -60,11 +60,8 @@ const redrawGrid = (prev) => {
   return prev.map(prevCell => {
     const neighbors = getNeighbors(prev, prevCell);
     const isAlive = getShouldLive(prevCell, neighbors);
-    return {
-      x: prevCell.x,
-      y: prevCell.y,
-      isAlive,
-    };
+    prevCell.isAlive = isAlive;
+    return prevCell;
   });
 };
 

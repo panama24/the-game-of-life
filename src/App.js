@@ -46,8 +46,8 @@ function App() {
   const [grid, setGrid] = useState(initializeGrid(COLS, ROWS));
 
   useInterval(() => {
-    // setGrid(redrawGrid(grid));
-  }, 10000);
+    setGrid(redrawGrid(grid));
+  }, 2000);
 
   return (
     <div className="App">
