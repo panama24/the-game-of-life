@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App, { Cell, Grid } from './App';
-import { makeGrid } from './utils';
+import { initializeGrid } from './utils';
 
 afterEach(cleanup);
 
@@ -27,7 +27,7 @@ describe('App', () => {
 
 describe('Grid', () => {
   it('should render correctly', () => {
-    const grid = makeGrid(5, 5);
+    const grid = initializeGrid(5, 5);
     const { getAllByTestId } = render(<Grid grid={grid} />);
     expect(getAllByTestId(/item/i)).toHaveLength(25);
   });

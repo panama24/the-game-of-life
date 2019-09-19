@@ -2,7 +2,7 @@ import {
   cell,
   getCount,
   getNeighbors,
-  makeGrid,
+  initializeGrid,
   shouldLive,
   trueOrFalse,
 } from './utils';
@@ -23,11 +23,11 @@ describe('cell', () => {
   });
 });
 
-describe('makeGrid', () => {
+describe('initializeGrid', () => {
   it('should generate grid of specified dimensions', () => {
     const cols = 5;
     const rows = 5;
-    const grid = makeGrid(cols, rows);
+    const grid = initializeGrid(cols, rows);
     expect(grid.length).toEqual(cols * rows);
   });
 });
@@ -114,7 +114,7 @@ describe('getNeighbors', () => {
   describe('when cell is a middle cell', () => {
     it('should return 8 neighboring cells', () => {
       const cell = {x:2, y:2, isAlive: true};
-      const grid = makeGrid(5, 5);
+      const grid = initializeGrid(5, 5);
       const res = getNeighbors(grid, cell);
       expect(res.length).toEqual(8);
     });
@@ -123,7 +123,7 @@ describe('getNeighbors', () => {
   describe('when cell is a corner cell', () => {
     it('should return 3 neighboring cells', () => {
       const cell = {x:0, y:0, isAlive: true};
-      const grid = makeGrid(5, 5);
+      const grid = initializeGrid(5, 5);
       const res = getNeighbors(grid, cell);
       expect(res.length).toEqual(3);
     });
@@ -132,7 +132,7 @@ describe('getNeighbors', () => {
   describe('when cell is on the perimeter, but not a corner', () => {
     it('should return 5 neighboring cells', () => {
       const cell = {x:1, y:0, isAlive: true};
-      const grid = makeGrid(5, 5);
+      const grid = initializeGrid(5, 5);
       const res = getNeighbors(grid, cell);
       expect(res.length).toEqual(5);
     });

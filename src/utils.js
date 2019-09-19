@@ -14,7 +14,7 @@ const getCount = (array) => array.reduce((acc, { isAlive }) => {
 
 const cell = (x, y, isAlive) => ({ x, y, isAlive });
 
-const makeGrid = (cols, rows) => {
+const initializeGrid = (cols, rows) => {
   let cells = [];
 
   for (let i = 0; i < cols; i++) {
@@ -65,7 +65,7 @@ export {
   cell,
   getCount,
   getNeighbors,
-  makeGrid,
+  initializeGrid,
   shouldLive,
   trueOrFalse,
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { makeGrid } from './utils';
+import { initializeGrid } from './utils';
 import './App.css';
 
 const COLS = 30;
@@ -24,8 +24,16 @@ export const Grid = ({ grid }) => {
   ));
 };
 
+let count = 0;
 function App() {
-  const [grid, setGrid] = useState(makeGrid(COLS, ROWS));
+  const [grid, setGrid] = useState(initializeGrid(COLS, ROWS));
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    setInterval(() => {
+      setTick(count++);
+    }, 3000);
+  }, []);
 
   return (
     <div className="App">
