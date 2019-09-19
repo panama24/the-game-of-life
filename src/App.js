@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { initializeGrid } from './utils';
+import React, { useEffect, useRef, useState } from 'react';
+import { initializeGrid, redrawGrid } from './utils';
 import './App.css';
 
 const COLS = 30;
@@ -24,16 +24,30 @@ export const Grid = ({ grid }) => {
   ));
 };
 
-let count = 0;
-function App() {
-  const [grid, setGrid] = useState(initializeGrid(COLS, ROWS));
-  const [tick, setTick] = useState(0);
+const useInterval = (cb, delay) => {
+  const savedCb = useRef();
+
+  // remember latest cb
+  useEffect(() => {
+    savedCb.current = cb;
+  }, [cb]);
 
   useEffect(() => {
-    setInterval(() => {
-      setTick(count++);
-    }, 3000);
-  }, []);
+    const tick = () => savedCb.current();
+
+    if (delay !== null) {
+       let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+};
+
+function App() {
+  const [grid, setGrid] = useState(initializeGrid(COLS, ROWS));
+
+  useInterval(() => {
+    // setGrid(redrawGrid(grid));
+  }, 10000);
 
   return (
     <div className="App">

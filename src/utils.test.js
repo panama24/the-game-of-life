@@ -3,7 +3,7 @@ import {
   getCount,
   getNeighbors,
   initializeGrid,
-  shouldLive,
+  getShouldLive,
   trueOrFalse,
 } from './utils';
 
@@ -56,7 +56,7 @@ describe('getCount', () => {
   });
 });
 
-describe('shouldLive', () => {
+describe('getShouldLive', () => {
   describe('when cell is alive', () => {
     it('should return true when there are 2-3 living neighbors', () => {
       const neighbors = [
@@ -66,7 +66,7 @@ describe('shouldLive', () => {
         {x:3, y:0, isAlive: false},
         {x:4, y:0, isAlive: true},
       ];
-      const res = shouldLive(true, neighbors);
+      const res = getShouldLive(true, neighbors);
       expect(res).toBe(true);
     });
 
@@ -78,7 +78,7 @@ describe('shouldLive', () => {
         {x:3, y:0, isAlive: false},
         {x:4, y:0, isAlive: true},
       ];
-      const res = shouldLive(true, neighbors);
+      const res = getShouldLive(true, neighbors);
       expect(res).toBe(false);
     });
 
@@ -90,7 +90,7 @@ describe('shouldLive', () => {
         {x:3, y:0, isAlive: false},
         {x:4, y:0, isAlive: true},
       ];
-      const res = shouldLive(true, neighbors);
+      const res = getShouldLive(true, neighbors);
       expect(res).toBe(false);
     });
   });
@@ -104,7 +104,7 @@ describe('shouldLive', () => {
         {x:3, y:0, isAlive: false},
         {x:4, y:0, isAlive: true},
       ];
-      const res = shouldLive(false, neighbors);
+      const res = getShouldLive(false, neighbors);
       expect(res).toBe(true);
     });
   });

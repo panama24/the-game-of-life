@@ -49,18 +49,31 @@ const getNeighbors = (grid, cell) => {
   return neighbors;
 }
 
-const shouldLive = (cell, neighbors) => {
+const getShouldLive = (cell, neighbors) => {
   const count = getCount(neighbors);
   return cell.isAlive
     ? (count === 2 || count === 3)
     : count === 3;
 };
 
+const redrawGrid = (prev) => {
+  return prev.map(prevCell => {
+    const neighbors = getNeighbors(prev, prevCell);
+    const isAlive = getShouldLive(prevCell, neighbors);
+    return {
+      x: prevCell.x,
+      y: prevCell.y,
+      isAlive,
+    };
+  });
+};
+
 export {
   cell,
   getCount,
   getNeighbors,
+  getShouldLive,
   initializeGrid,
-  shouldLive,
+  redrawGrid,
   trueOrFalse,
 };
